@@ -1,5 +1,6 @@
 {
   "display_name": "AdGuard Home",
   "id": "adguard_home",
-  "class": "AdGuardHome"
+  "class": "AdGuardHome",
+  "repository": "https://github.com/shadal18/inkypi-adguard-home"
 }
