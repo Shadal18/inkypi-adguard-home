@@ -1,0 +1,137 @@
+{% extends "plugin.html" %} {% block content %}
+<style>
+  :root {
+      --ink-panel: {{ accent_panel | default('#000000') }};
+      --ink-info: {{ accent_info | default('#0000ff') }};
+      --ink-alert: {{ accent_alert | default('#ff0000') }};
+      --ink-warn: {{ accent_warn | default('#ffcc00') }};
+      --ink-ok: {{ accent_ok | default('#008000') }};
+      --paper: #ffffff;
+  }
+</style>
+
+<div class="agp-frame status-{{ status_level }} mode-{{ plugin_settings.layout_mode | default('dashboard') }}">
+  <header class="agp-hero">
+    <div class="agp-hero-copy">
+      <p class="agp-kicker">AdGuard Home</p>
+      <h1 class="agp-title">Network privacy panel</h1>
+      <p class="agp-subtitle">Version {{ version }} · Privacy score {{ privacy_score }}/100</p>
+    </div>
+
+    <div class="agp-hero-meta">
+      {% if show_status %}
+      <div class="agp-status-chip {{ 'online' if protection_enabled else 'offline' }}">
+        <span class="agp-status-dot"></span>
+        <span>{{ 'Protection active' if protection_enabled else 'Protection disabled' }}</span>
+      </div>
+      {% endif %}
+      <div class="agp-status-note">Mode: {{ status_level|title }}</div>
+    </div>
+  </header>
+
+  {% if show_totals %}
+  <section class="agp-metric-row">
+    <article class="agp-metric metric-queries">
+      <span class="metric-label">Total DNS</span>
+      <strong class="metric-value">{{ '{:,}'.format(total_queries) }}</strong>
+      <small class="metric-note">24 hour volume</small>
+    </article>
+    <article class="agp-metric metric-blocked">
+      <span class="metric-label">Blocked</span>
+      <strong class="metric-value">{{ '{:,}'.format(blocked_queries) }}</strong>
+      <small class="metric-note">{{ blocked_percent }}% rate</small>
+    </article>
+    <article class="agp-metric metric-latency">
+      <span class="metric-label">Latency</span>
+      <strong class="metric-value">{{ avg_processing_ms }} ms</strong>
+      <small class="metric-note">Average resolve time</small>
+    </article>
+    <article class="agp-metric metric-rules">
+      <span class="metric-label">Rules</span>
+      <strong class="metric-value">{{ '{:,}'.format(rules_count) }}</strong>
+      <small class="metric-note">{{ total_clients }} clients</small>
+    </article>
+  </section>
+  {% endif %}
+
+  <section class="agp-grid">
+    {% if show_chart %}
+    <article class="agp-panel agp-chart-panel">
+      <div class="agp-panel-head">
+        <h2>Traffic strip</h2>
+        <span>Last 24 hours</span>
+      </div>
+
+      <div class="agp-chart-shell">
+        {% for bar in chart_rows %}
+        <div class="agp-bar-slot {{ 'is-hot' if bar.is_hot else '' }}">
+          <div class="agp-bar-total" style="height: {{ [bar.total_pct, 4] | max }}%"></div>
+          <div class="agp-bar-blocked" style="height: {{ [bar.blocked_pct, 2] | max }}%"></div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="agp-chart-legend">
+        <span class="legend-item"><i class="swatch swatch-info"></i>Total</span>
+        <span class="legend-item"><i class="swatch swatch-alert"></i>Blocked</span>
+        <span class="legend-item"><i class="swatch swatch-warn"></i>Hot</span>
+      </div>
+    </article>
+    {% endif %}
+
+    <div class="agp-stack">
+      {% if show_services %}
+      <article class="agp-panel agp-services-panel">
+        <div class="agp-panel-head">
+          <h2>Safeguards</h2>
+          <span>Protection stack</span>
+        </div>
+        <div class="agp-list agp-service-list">
+          <div class="agp-row"><span>Safe browsing</span><strong>{{ '{:,}'.format(safe_browsing) }}</strong></div>
+          <div class="agp-row"><span>Safe search</span><strong>{{ '{:,}'.format(safe_search) }}</strong></div>
+          <div class="agp-row"><span>Parental</span><strong>{{ '{:,}'.format(parental) }}</strong></div>
+          <div class="agp-row agp-row-highlight"><span>Block rate</span><strong>{{ blocked_percent }}%</strong></div>
+        </div>
+      </article>
+      {% endif %} {% if show_clients %}
+      <article class="agp-panel agp-clients-panel">
+        <div class="agp-panel-head">
+          <h2>Top clients</h2>
+          <span>Most active</span>
+        </div>
+        <div class="agp-list">
+          {% for client in top_clients %}
+          <div class="agp-row">
+            <span class="truncate">{{ client.name }}</span>
+            <strong>{{ '{:,}'.format(client.count) }}</strong>
+          </div>
+          {% else %}
+          <div class="agp-empty">No client activity available</div>
+          {% endfor %}
+        </div>
+      </article>
+      {% endif %} {% if show_queries %}
+      <article class="agp-panel agp-queries-panel">
+        <div class="agp-panel-head">
+          <h2>Recent queries</h2>
+          <span>Latest sample</span>
+        </div>
+        <div class="agp-list">
+          {% for item in latest_queries %}
+          <div class="agp-query-row">
+            <div class="agp-query-copy">
+              <strong class="truncate">{{ item.host }}</strong>
+              <span>{{ item.client }}</span>
+            </div>
+            <em>{{ item.decision }}</em>
+          </div>
+          {% else %}
+          <div class="agp-empty">Query log unavailable</div>
+          {% endfor %}
+        </div>
+      </article>
+      {% endif %}
+    </div>
+  </section>
+</div>
+{% endblock %}
