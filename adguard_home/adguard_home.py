@@ -311,11 +311,20 @@ class AdGuardHome(BasePlugin):
     def _privacy_score(
         self, blocked_percent: float, safe_browsing: int, safe_search: int, parental: int
     ) -> int:
-        score = min(
-            100,
-            int(blocked_percent * 2.2)
-            + (8 if safe_browsing else 0)
-            + (6 if safe_search else 0)
-            + (4 if parental else 0),
+        """Blend block-rate effectiveness with which protective safeguards
+        are actually turned on, without letting block rate alone saturate
+        the score. Block rate contributes up to 60 points (needs a 60%+
+        block rate to max out); the three safeguards contribute up to 40
+        points combined (15 + 15 + 10), so a high block rate with no
+        safeguards enabled can never reach 100, and vice versa.
+        """
+        block_component = min(60.0, max(0.0, blocked_percent))
+
+        safeguard_component = (
+            (15 if safe_browsing else 0)
+            + (15 if safe_search else 0)
+            + (10 if parental else 0)
         )
-        return max(score, 5)
+
+        score = int(round(block_component + safeguard_component))
+        return max(min(score, 100), 5)
