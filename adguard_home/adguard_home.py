@@ -125,11 +125,9 @@ class AdGuardHome(BasePlugin):
         chart_rows = self._build_chart_rows(dns_history, blocked_history)
         top_clients = self._format_top_clients(stats.get("top_clients", []))
         latest_queries = self._format_recent_queries(querylog.get("data", []))
-        total_clients = (
-            len(clients.get("clients", []))
-            if isinstance(clients.get("clients"), list)
-            else 0
-        )
+
+        rules_count = self._count_active_rules(filtering)
+        total_clients = self._count_active_clients(clients)
 
         protection_enabled = bool(status.get("protection_enabled", False))
         status_level = self._derive_status(protection_enabled, blocked_percent)
@@ -144,7 +142,7 @@ class AdGuardHome(BasePlugin):
             "safe_search": safe_search,
             "parental": parental,
             "avg_processing_ms": avg_processing_ms,
-            "rules_count": int(filtering.get("rules_count", 0)),
+            "rules_count": rules_count,
             "top_clients": top_clients,
             "latest_queries": latest_queries,
             "chart_rows": chart_rows,
@@ -176,6 +174,46 @@ class AdGuardHome(BasePlugin):
         except Exception as exc:
             log.info("Optional endpoint unavailable (%s): %s", path, exc)
             return None
+
+    def _count_active_rules(self, filtering: Dict[str, Any]) -> int:
+        """AdGuard Home's filtering/status has no top-level rules_count field.
+
+        Each entry in `filters` / `whitelist_filters` carries its own
+        `rules_count`, and custom lines live in `user_rules`. Sum all of
+        them (only for enabled filter lists) to get the true active total.
+        """
+        total = 0
+
+        for key in ("filters", "whitelist_filters"):
+            entries = filtering.get(key)
+            if not isinstance(entries, list):
+                continue
+            for entry in entries:
+                if not isinstance(entry, dict):
+                    continue
+                if not entry.get("enabled", True):
+                    continue
+                total += int(entry.get("rules_count", 0) or 0)
+
+        user_rules = filtering.get("user_rules")
+        if isinstance(user_rules, list):
+            total += sum(1 for line in user_rules if str(line).strip())
+
+        return total
+
+    def _count_active_clients(self, clients: Dict[str, Any]) -> int:
+        """/control/clients splits results into manually-configured `clients`
+        and auto-discovered `auto_clients` (DHCP/ARP/rDNS-detected devices).
+        Counting only `clients` misses every device AdGuard Home actually
+        sees traffic from, which is why the card previously read 0.
+        """
+        configured = clients.get("clients")
+        auto = clients.get("auto_clients")
+
+        configured_count = len(configured) if isinstance(configured, list) else 0
+        auto_count = len(auto) if isinstance(auto, list) else 0
+
+        return configured_count + auto_count
 
     def _build_chart_rows(
         self, dns_history: List[int], blocked_history: List[int]
