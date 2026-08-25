@@ -10,9 +10,6 @@
     --ink-text-soft: var(--text-muted, #64748b);
     --ink-primary: var(--accent-color, #14b8a6);
     --ink-info: var(--info-color, #3b82f6);
-    --ink-danger: var(--danger-color, #ef4444);
-    --ink-warning: var(--warning-color, #f59e0b);
-    --ink-success: var(--success-color, #22c55e);
     --ink-shadow-sm: 0 8px 24px rgba(15, 23, 42, 0.08);
     --ink-radius-xl: 18px;
   }
@@ -317,7 +314,8 @@
     box-shadow: 0 1px 0 color-mix(in srgb, #fff 16%, transparent);
   }
 
-  .ink-option-card {
+  .ink-option-card,
+  .ink-toggle-card {
     padding: 14px;
   }
 
@@ -352,10 +350,6 @@
     color: var(--ink-text-muted);
     font-size: 12px;
     line-height: 1.5;
-  }
-
-  .ink-toggle-card {
-    padding: 14px;
   }
 
   .ink-color-grid {
@@ -502,42 +496,22 @@
 
   <div class="ink-shell">
     <section class="ink-hero">
-      <div class="ink-eyebrow">🛡 AdGuard Home</div>
-      <h2>Show DNS filtering health, traffic, clients, and recent activity on your e-paper display.</h2>
+      <div class="ink-eyebrow">🛡️ AdGuard Home</div>
+      <h2>Display DNS protection, traffic trends, client activity, and filtering health.</h2>
       <p>
-        Configure the AdGuard Home connection, control dashboard density, hide sensitive DNS information, and apply
-        colors that suit a six-color Waveshare display.
+        Connect InkyPi to your AdGuard Home server, select the sections to render, protect sensitive DNS information,
+        and tune display colors for six-color Waveshare panels.
       </p>
-
-      <div class="ink-metrics">
-        <div class="ink-metric">
-          <div class="ink-metric-label">Layout</div>
-          <div class="ink-metric-value" id="metric-layout">Full</div>
-          <div class="ink-metric-sub">Dashboard or compact render</div>
-        </div>
-
-        <div class="ink-metric">
-          <div class="ink-metric-label">Privacy</div>
-          <div class="ink-metric-value" id="metric-privacy">Open</div>
-          <div class="ink-metric-sub">Client and query masking state</div>
-        </div>
-
-        <div class="ink-metric">
-          <div class="ink-metric-label">Palette</div>
-          <div class="ink-metric-value" id="metric-color">6-color</div>
-          <div class="ink-metric-sub">Display accent color profile</div>
-        </div>
-      </div>
     </section>
 
     <section class="ink-hint-card">
       <div class="ink-hint-heading">
-        <span class="ink-hint-icon" aria-hidden="true">ℹ️</span>
+        <span class="ink-hint-icon" aria-hidden="true">💡</span>
         <h3 class="ink-hint-title">Connection guidance</h3>
       </div>
       <p class="ink-hint-copy">
-        Use the direct AdGuard Home URL, such as <code>http://192.168.1.2:3000</code>, or a reverse-proxy root URL. The
-        InkyPi host must be able to reach it over your local network.
+        Use the direct dashboard address, such as <code>http://192.168.1.2:3000</code>, or the root URL of your reverse
+        proxy. The InkyPi host must be able to reach this address.
       </p>
     </section>
 
@@ -546,7 +520,7 @@
         <span class="ink-section-icon" aria-hidden="true">🔌</span>
         <div class="ink-section-copy">
           <h3 class="ink-section-title">AdGuard connection</h3>
-          <div class="ink-section-subtitle">Enter the endpoint and login InkyPi should use.</div>
+          <div class="ink-section-subtitle">Enter the server endpoint and credentials InkyPi should use.</div>
         </div>
       </div>
 
@@ -562,7 +536,7 @@
               placeholder="http://192.168.1.2:3000"
               autocomplete="off"
             />
-            <p class="ink-note">Use the direct interface URL or the root address from your reverse proxy.</p>
+            <p class="ink-note">Use the direct interface URL or a reverse-proxy root address.</p>
           </div>
 
           <div class="ink-grid-2">
@@ -592,7 +566,7 @@
         <span class="ink-section-icon" aria-hidden="true">🧭</span>
         <div class="ink-section-copy">
           <h3 class="ink-section-title">Layout and thresholds</h3>
-          <div class="ink-section-subtitle">Choose the rendered density and blocked-query warning points.</div>
+          <div class="ink-section-subtitle">Control display density and when blocked-query warnings appear.</div>
         </div>
       </div>
 
@@ -604,7 +578,7 @@
                 <input type="radio" name="layout_mode" value="dashboard" />
                 <span>
                   <div class="ink-option-title">Dashboard</div>
-                  <p class="ink-option-copy">Full layout with chart, clients, service counters, and recent queries.</p>
+                  <p class="ink-option-copy">Full layout with traffic, clients, counters, and recent queries.</p>
                 </span>
               </label>
             </div>
@@ -614,7 +588,7 @@
                 <input type="radio" name="layout_mode" value="compact" />
                 <span>
                   <div class="ink-option-title">Compact</div>
-                  <p class="ink-option-copy">A tighter layout for smaller panels and portrait displays.</p>
+                  <p class="ink-option-copy">A denser arrangement for smaller or portrait-oriented displays.</p>
                 </span>
               </label>
             </div>
@@ -633,7 +607,7 @@
                 step="1"
                 placeholder="10"
               />
-              <p class="ink-note">Use this color state when the blocked-query percentage reaches this value.</p>
+              <p class="ink-note">Use the warning color when the blocked-query percentage reaches this level.</p>
             </div>
 
             <div class="ink-field">
@@ -648,7 +622,7 @@
                 step="1"
                 placeholder="25"
               />
-              <p class="ink-note">Use the alert color when the blocked-query percentage reaches this value.</p>
+              <p class="ink-note">Use the alert color when the blocked-query percentage reaches this level.</p>
             </div>
           </div>
         </div>
@@ -660,7 +634,7 @@
         <span class="ink-section-icon" aria-hidden="true">📊</span>
         <div class="ink-section-copy">
           <h3 class="ink-section-title">Display sections</h3>
-          <div class="ink-section-subtitle">Select the data blocks included in the dashboard image.</div>
+          <div class="ink-section-subtitle">Choose which information blocks appear on the dashboard image.</div>
         </div>
       </div>
 
@@ -671,7 +645,7 @@
               <input type="checkbox" name="show_status" value="true" />
               <span>
                 <div class="ink-option-title">Status badge</div>
-                <p class="ink-toggle-copy">Show whether AdGuard protection is enabled.</p>
+                <p class="ink-toggle-copy">Show whether DNS protection is enabled.</p>
               </span>
             </label>
           </div>
@@ -681,7 +655,7 @@
               <input type="checkbox" name="show_totals" value="true" />
               <span>
                 <div class="ink-option-title">Totals row</div>
-                <p class="ink-toggle-copy">Show query totals and blocked-query summaries.</p>
+                <p class="ink-toggle-copy">Show total DNS queries and filtering summaries.</p>
               </span>
             </label>
           </div>
@@ -691,7 +665,7 @@
               <input type="checkbox" name="show_services" value="true" />
               <span>
                 <div class="ink-option-title">Safeguard counters</div>
-                <p class="ink-toggle-copy">Show filtering and protection service counts.</p>
+                <p class="ink-toggle-copy">Show filtering and protection service status counts.</p>
               </span>
             </label>
           </div>
@@ -701,7 +675,7 @@
               <input type="checkbox" name="show_clients" value="true" />
               <span>
                 <div class="ink-option-title">Top clients</div>
-                <p class="ink-toggle-copy">Show the devices generating the most DNS requests.</p>
+                <p class="ink-toggle-copy">Show devices with the highest recent DNS request volume.</p>
               </span>
             </label>
           </div>
@@ -721,7 +695,7 @@
               <input type="checkbox" name="show_chart" value="true" />
               <span>
                 <div class="ink-option-title">24-hour traffic strip</div>
-                <p class="ink-toggle-copy">Show the daily DNS activity trend on the dashboard.</p>
+                <p class="ink-toggle-copy">Show the DNS activity trend from the last 24 hours.</p>
               </span>
             </label>
           </div>
@@ -734,7 +708,7 @@
         <span class="ink-section-icon" aria-hidden="true">🕶️</span>
         <div class="ink-section-copy">
           <h3 class="ink-section-title">Privacy and color profile</h3>
-          <div class="ink-section-subtitle">Mask sensitive content and choose e-paper-friendly accents.</div>
+          <div class="ink-section-subtitle">Hide sensitive information and tune colors for your e-paper display.</div>
         </div>
       </div>
 
@@ -746,7 +720,7 @@
                 <input type="checkbox" name="mask_client_names" value="true" />
                 <span>
                   <div class="ink-option-title">Mask client names</div>
-                  <p class="ink-toggle-copy">Hide device names on shared or visible displays.</p>
+                  <p class="ink-toggle-copy">Hide device hostnames and identifiers from the display.</p>
                 </span>
               </label>
             </div>
@@ -756,7 +730,7 @@
                 <input type="checkbox" name="mask_query_names" value="true" />
                 <span>
                   <div class="ink-option-title">Mask query names</div>
-                  <p class="ink-toggle-copy">Hide requested domain names from the dashboard.</p>
+                  <p class="ink-toggle-copy">Hide recently requested domain names from the display.</p>
                 </span>
               </label>
             </div>
@@ -766,21 +740,22 @@
                 <input type="checkbox" name="prefer_6color_profile" value="true" />
                 <span>
                   <div class="ink-option-title">Force 6-color profile</div>
-                  <p class="ink-toggle-copy">Use accent colors intended for Waveshare ACeP displays.</p>
+                  <p class="ink-toggle-copy">Use accents intended for Waveshare ACeP six-color panels.</p>
                 </span>
               </label>
             </div>
           </div>
 
           <p class="ink-note">
-            Masking is useful when your dashboard is in a public room, workshop, office, or streamed camera view.
+            Enable masking if the e-paper display is visible to visitors, streamed through a camera, or placed in a
+            shared room.
           </p>
 
           <div class="ink-color-grid">
             <div class="ink-color-card">
               <div>
                 <div class="ink-color-title">Panel ink</div>
-                <p class="ink-color-copy">Text and border color for the rendered dashboard card.</p>
+                <p class="ink-color-copy">Text and border color for the rendered card.</p>
               </div>
               <input type="color" id="accent_panel" name="accent_panel" value="#000000" />
             </div>
@@ -788,7 +763,7 @@
             <div class="ink-color-card">
               <div>
                 <div class="ink-color-title">Info blue</div>
-                <p class="ink-color-copy">Traffic bars and routine information highlights.</p>
+                <p class="ink-color-copy">Traffic bars and normal information highlights.</p>
               </div>
               <input type="color" id="accent_info" name="accent_info" value="#0000ff" />
             </div>
@@ -796,7 +771,7 @@
             <div class="ink-color-card">
               <div>
                 <div class="ink-color-title">Alert red</div>
-                <p class="ink-color-copy">Blocked traffic and high-severity emphasis.</p>
+                <p class="ink-color-copy">Blocked traffic and high-priority alert emphasis.</p>
               </div>
               <input type="color" id="accent_alert" name="accent_alert" value="#ff0000" />
             </div>
@@ -804,7 +779,7 @@
             <div class="ink-color-card">
               <div>
                 <div class="ink-color-title">Warning yellow</div>
-                <p class="ink-color-copy">Threshold warning state and high-activity bar emphasis.</p>
+                <p class="ink-color-copy">Threshold warnings and activity-bar emphasis.</p>
               </div>
               <input type="color" id="accent_warn" name="accent_warn" value="#ffcc00" />
             </div>
@@ -812,7 +787,7 @@
             <div class="ink-color-card">
               <div>
                 <div class="ink-color-title">Healthy green</div>
-                <p class="ink-color-copy">Enabled protection and healthy service-state indicator.</p>
+                <p class="ink-color-copy">Enabled protection and healthy state indicators.</p>
               </div>
               <input type="color" id="accent_ok" name="accent_ok" value="#008000" />
             </div>
