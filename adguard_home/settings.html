@@ -1,763 +1,840 @@
 <style>
   :root {
-    --ag-bg: var(--background-color, var(--color-background, #f5f7fb));
-    --ag-bg-soft: var(--card-background-secondary, var(--color-surface-2, #eef2f7));
-    --ag-panel: var(--card-background, var(--color-surface, #ffffff));
-    --ag-panel-2: var(--card-background-hover, var(--color-surface-2, #f8fafc));
-    --ag-border: var(--border-color, rgba(15, 23, 42, 0.12));
-    --ag-border-strong: var(--border-color-strong, rgba(15, 23, 42, 0.18));
-    --ag-text: var(--text-primary, var(--color-text, #0f172a));
-    --ag-text-muted: var(--text-secondary, var(--color-text-secondary, #475569));
-    --ag-text-soft: var(--text-muted, #64748b);
-    --ag-primary: var(--accent-color, #14b8a6);
-    --ag-primary-strong: var(--accent-color-hover, #0f766e);
-    --ag-success: var(--success-color, #22c55e);
-    --ag-warning: var(--warning-color, #f59e0b);
-    --ag-danger: var(--danger-color, #ef4444);
-    --ag-info: var(--info-color, #3b82f6);
-    --ag-shadow-sm: 0 8px 24px rgba(15, 23, 42, 0.08);
-    --ag-shadow-lg: 0 18px 50px rgba(15, 23, 42, 0.12);
-    --ag-radius-xl: 18px;
-    --ag-radius-lg: 14px;
-    --ag-radius-md: 12px;
-    --ag-radius-sm: 10px;
-    --ag-gap: 16px;
+    --ink-bg: var(--background-color, var(--color-background, #f5f7fb));
+    --ink-bg-soft: var(--card-background-secondary, var(--color-surface-2, #eef2f7));
+    --ink-panel: var(--card-background, var(--color-surface, #ffffff));
+    --ink-panel-2: var(--card-background-hover, var(--color-surface-2, #f8fafc));
+    --ink-border: var(--border-color, rgba(15, 23, 42, 0.12));
+    --ink-text: var(--text-primary, var(--color-text, #0f172a));
+    --ink-text-muted: var(--text-secondary, var(--color-text-secondary, #475569));
+    --ink-text-soft: var(--text-muted, #64748b);
+    --ink-primary: var(--accent-color, #14b8a6);
+    --ink-info: var(--info-color, #3b82f6);
+    --ink-danger: var(--danger-color, #ef4444);
+    --ink-warning: var(--warning-color, #f59e0b);
+    --ink-success: var(--success-color, #22c55e);
+    --ink-shadow-sm: 0 8px 24px rgba(15, 23, 42, 0.08);
+    --ink-radius-xl: 18px;
   }
 
   html.dark,
   body.dark,
   [data-theme="dark"],
   html[data-theme="dark"] {
-    --ag-bg: var(--background-color, var(--color-background, #0f172a));
-    --ag-bg-soft: var(--card-background-secondary, var(--color-surface-2, #162033));
-    --ag-panel: var(--card-background, var(--color-surface, #111827));
-    --ag-panel-2: var(--card-background-hover, var(--color-surface-2, #172033));
-    --ag-border: var(--border-color, rgba(255, 255, 255, 0.1));
-    --ag-border-strong: var(--border-color-strong, rgba(255, 255, 255, 0.16));
-    --ag-text: var(--text-primary, var(--color-text, #f8fafc));
-    --ag-text-muted: var(--text-secondary, var(--color-text-secondary, #cbd5e1));
-    --ag-text-soft: var(--text-muted, #94a3b8);
-    --ag-shadow-sm: 0 10px 28px rgba(0, 0, 0, 0.22);
-    --ag-shadow-lg: 0 18px 50px rgba(0, 0, 0, 0.34);
+    --ink-bg: var(--background-color, var(--color-background, #0f172a));
+    --ink-bg-soft: var(--card-background-secondary, var(--color-surface-2, #162033));
+    --ink-panel: var(--card-background, var(--color-surface, #111827));
+    --ink-panel-2: var(--card-background-hover, var(--color-surface-2, #172033));
+    --ink-border: var(--border-color, rgba(255, 255, 255, 0.1));
+    --ink-text: var(--text-primary, var(--color-text, #f8fafc));
+    --ink-text-muted: var(--text-secondary, var(--color-text-secondary, #cbd5e1));
+    --ink-text-soft: var(--text-muted, #94a3b8);
+    --ink-shadow-sm: 0 10px 28px rgba(0, 0, 0, 0.22);
   }
 
-  .ag-settings-root {
+  .adguard-settings-container {
     width: 100%;
     box-sizing: border-box;
-    color: var(--ag-text);
+    color: var(--ink-text);
   }
 
-  .ag-shell {
+  .ink-shell {
     display: grid;
     gap: 18px;
     margin-top: 8px;
   }
 
-  .ag-hero {
-    position: relative;
+  .ink-hero,
+  .ink-section,
+  .ink-hint-card,
+  .ink-link-card {
     overflow: hidden;
-    border-radius: var(--ag-radius-xl);
-    border: 1px solid var(--ag-border);
+    border: 1px solid var(--ink-border);
+    border-radius: var(--ink-radius-xl);
+    background: linear-gradient(180deg, var(--ink-panel), var(--ink-panel-2));
+    box-shadow: var(--ink-shadow-sm);
+  }
+
+  .ink-hero {
+    position: relative;
+    padding: 22px;
     background:
-      radial-gradient(circle at top right, color-mix(in srgb, var(--ag-primary) 16%, transparent), transparent 34%),
-      radial-gradient(circle at bottom left, color-mix(in srgb, var(--ag-info) 12%, transparent), transparent 30%),
-      linear-gradient(180deg, color-mix(in srgb, var(--ag-panel) 92%, var(--ag-bg-soft) 8%), var(--ag-panel-2));
-    box-shadow: var(--ag-shadow-sm);
-    padding: 22px 22px 18px;
+      radial-gradient(circle at top right, color-mix(in srgb, var(--ink-primary) 16%, transparent), transparent 34%),
+      radial-gradient(circle at bottom left, color-mix(in srgb, var(--ink-info) 12%, transparent), transparent 30%),
+      linear-gradient(180deg, color-mix(in srgb, var(--ink-panel) 92%, var(--ink-bg-soft) 8%), var(--ink-panel-2));
   }
 
-  .ag-hero-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 18px;
-    flex-wrap: wrap;
-  }
-
-  .ag-hero-copy {
-    min-width: 260px;
-    flex: 1 1 520px;
-  }
-
-  .ag-eyebrow {
+  .ink-eyebrow {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     padding: 6px 10px;
+    margin-bottom: 10px;
+    border: 1px solid color-mix(in srgb, var(--ink-primary) 22%, transparent);
     border-radius: 999px;
-    background: color-mix(in srgb, var(--ag-primary) 14%, transparent);
-    color: var(--ag-primary);
+    background: color-mix(in srgb, var(--ink-primary) 14%, transparent);
+    color: var(--ink-primary);
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    margin-bottom: 10px;
-    border: 1px solid color-mix(in srgb, var(--ag-primary) 22%, transparent);
   }
 
-  .ag-hero h2 {
+  .ink-hero h2 {
     margin: 0;
-    color: var(--ag-text);
+    color: var(--ink-text);
     font-size: 28px;
-    line-height: 1.05;
+    line-height: 1.08;
     letter-spacing: -0.03em;
   }
 
-  .ag-hero p {
-    margin: 10px 0 0;
+  .ink-hero p {
     max-width: 68ch;
-    color: var(--ag-text-muted);
+    margin: 10px 0 0;
+    color: var(--ink-text-muted);
     font-size: 14px;
     line-height: 1.6;
   }
 
-  .ag-metrics {
+  .ink-metrics {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 12px;
     margin-top: 18px;
   }
 
-  .ag-metric {
-    border: 1px solid var(--ag-border);
-    border-radius: var(--ag-radius-lg);
-    background: color-mix(in srgb, var(--ag-panel) 92%, var(--ag-bg) 8%);
-    padding: 14px 14px 12px;
+  .ink-metric {
     min-width: 0;
-    box-shadow: inset 0 1px 0 color-mix(in srgb, #fff 22%, transparent);
+    padding: 14px;
+    border: 1px solid var(--ink-border);
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--ink-panel) 92%, var(--ink-bg) 8%);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, #fff 20%, transparent);
   }
 
-  .ag-metric-label {
-    color: var(--ag-text-soft);
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
+  .ink-metric-label {
     margin-bottom: 8px;
+    color: var(--ink-text-soft);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
-  .ag-metric-value {
-    color: var(--ag-text);
-    font-size: 28px;
-    line-height: 1;
+  .ink-metric-value {
+    color: var(--ink-text);
+    font-size: 26px;
     font-weight: 800;
+    line-height: 1;
     letter-spacing: -0.03em;
   }
 
-  .ag-metric-sub {
-    color: var(--ag-text-muted);
-    font-size: 12px;
+  .ink-metric-sub {
     margin-top: 6px;
+    color: var(--ink-text-muted);
+    font-size: 12px;
+    line-height: 1.45;
   }
 
-  .ag-section {
-    border: 1px solid var(--ag-border);
-    border-radius: var(--ag-radius-xl);
-    background: linear-gradient(180deg, var(--ag-panel), var(--ag-panel-2));
-    box-shadow: var(--ag-shadow-sm);
-    overflow: hidden;
+  .ink-hint-card,
+  .ink-link-card {
+    padding: 16px 20px;
   }
 
-  .ag-section-header {
+  .ink-hint-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .ink-hint-icon,
+  .ink-section-icon,
+  .ink-link-icon {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--ink-border);
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--ink-bg-soft) 65%, var(--ink-panel) 35%);
+    font-size: 18px;
+  }
+
+  .ink-hint-icon {
+    width: 30px;
+    height: 30px;
+    border-color: color-mix(in srgb, var(--ink-primary) 28%, transparent);
+    border-radius: 9px;
+    background: color-mix(in srgb, var(--ink-primary) 14%, transparent);
+    font-size: 16px;
+  }
+
+  .ink-hint-title {
+    margin: 0;
+    color: var(--ink-text);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .ink-hint-copy,
+  .ink-link-help {
+    margin: 0;
+    color: var(--ink-text-muted);
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .ink-hint-copy code,
+  .ink-note code {
+    padding: 2px 5px;
+    border-radius: 5px;
+    background: color-mix(in srgb, var(--ink-primary) 12%, transparent);
+    color: var(--ink-text);
+    font-family: monospace;
+  }
+
+  .ink-section-header {
     display: flex;
     align-items: center;
     gap: 14px;
     padding: 18px 20px;
-    border-bottom: 1px solid var(--ag-border);
+    border-bottom: 1px solid var(--ink-border);
   }
 
-  .ag-section-icon {
+  .ink-section-icon {
     width: 38px;
     height: 38px;
-    border-radius: 12px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-    border: 1px solid var(--ag-border);
-    background: color-mix(in srgb, var(--ag-bg-soft) 65%, var(--ag-panel) 35%);
   }
 
-  .ag-section-copy {
+  .ink-section-copy {
     flex: 1;
     min-width: 0;
   }
 
-  .ag-section-title {
-    color: var(--ag-text);
+  .ink-section-title {
+    margin: 0;
+    color: var(--ink-text);
     font-size: 18px;
     font-weight: 700;
     line-height: 1.2;
-    margin: 0;
   }
 
-  .ag-section-subtitle {
-    color: var(--ag-text-muted);
-    font-size: 13px;
+  .ink-section-subtitle {
     margin-top: 4px;
+    color: var(--ink-text-muted);
+    font-size: 13px;
   }
 
-  .ag-section-body {
+  .ink-section-body {
     padding: 18px 20px 20px;
   }
 
-  .ag-grid {
+  .ink-grid,
+  .ink-grid-2,
+  .ink-choice-grid,
+  .ink-toggle-grid,
+  .ink-color-grid {
     display: grid;
     gap: 16px;
   }
 
-  .ag-grid-2 {
+  .ink-grid-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .ag-field {
-    display: grid;
-    gap: 8px;
-    min-width: 0;
+  .ink-choice-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   }
 
-  .ag-label {
-    color: var(--ag-text-soft);
+  .ink-toggle-grid {
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 12px;
+  }
+
+  .ink-field {
+    display: grid;
+    min-width: 0;
+    gap: 8px;
+  }
+
+  .ink-label {
+    color: var(--ink-text-soft);
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
   }
 
-  .ag-input,
-  .ag-settings-root .form-input,
-  .ag-settings-root input[type="text"],
-  .ag-settings-root input[type="password"],
-  .ag-settings-root input[type="number"],
-  .ag-settings-root input[type="url"],
-  .ag-settings-root select {
+  .ink-input,
+  .adguard-settings-container input[type="text"],
+  .adguard-settings-container input[type="password"],
+  .adguard-settings-container input[type="number"],
+  .adguard-settings-container input[type="url"],
+  .adguard-settings-container select {
+    box-sizing: border-box;
     width: 100%;
     min-height: 46px;
     padding: 0 14px;
+    border: 1px solid var(--ink-border);
     border-radius: 12px;
-    border: 1px solid var(--ag-border);
-    background: var(--ag-panel);
-    color: var(--ag-text);
     outline: none;
-    box-sizing: border-box;
+    background: var(--ink-panel);
+    color: var(--ink-text);
     box-shadow: inset 0 1px 0 color-mix(in srgb, #fff 14%, transparent);
   }
 
-  .ag-input::placeholder,
-  .ag-settings-root input::placeholder {
-    color: var(--ag-text-soft);
+  .ink-input::placeholder,
+  .adguard-settings-container input::placeholder {
+    color: var(--ink-text-soft);
     opacity: 1;
   }
 
-  .ag-input:focus,
-  .ag-settings-root .form-input:focus,
-  .ag-settings-root input:focus,
-  .ag-settings-root select:focus {
-    border-color: color-mix(in srgb, var(--ag-primary) 45%, transparent);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--ag-primary) 14%, transparent);
+  .ink-input:focus,
+  .adguard-settings-container input:focus,
+  .adguard-settings-container select:focus {
+    border-color: color-mix(in srgb, var(--ink-primary) 45%, transparent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--ink-primary) 14%, transparent);
   }
 
-  .ag-note {
+  .ink-note {
     margin: 0;
-    color: var(--ag-text-muted);
+    color: var(--ink-text-muted);
     font-size: 12px;
     line-height: 1.6;
   }
 
-  .ag-choice-grid,
-  .ag-toggle-grid,
-  .ag-color-grid {
-    display: grid;
+  .ink-option-card,
+  .ink-toggle-card,
+  .ink-color-card {
+    border: 1px solid var(--ink-border);
+    border-radius: 14px;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--ink-panel) 96%, #fff 4%),
+      color-mix(in srgb, var(--ink-panel-2) 96%, var(--ink-bg) 4%)
+    );
+    box-shadow: 0 1px 0 color-mix(in srgb, #fff 16%, transparent);
+  }
+
+  .ink-option-card {
+    padding: 14px;
+  }
+
+  .ink-option-card label,
+  .ink-toggle-card label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .ink-option-card input[type="radio"],
+  .ink-toggle-card input[type="checkbox"] {
+    flex: 0 0 auto;
+    margin-top: 2px;
+    accent-color: var(--ink-primary);
+  }
+
+  .ink-option-title,
+  .ink-color-title {
+    margin: 0 0 4px;
+    color: var(--ink-text);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .ink-option-copy,
+  .ink-toggle-copy,
+  .ink-color-copy {
+    margin: 0;
+    color: var(--ink-text-muted);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .ink-toggle-card {
+    padding: 14px;
+  }
+
+  .ink-color-grid {
     gap: 12px;
   }
 
-  .ag-choice-grid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  }
-
-  .ag-toggle-grid {
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  }
-
-  .ag-option-card,
-  .ag-toggle-card,
-  .ag-color-card {
-    border: 1px solid var(--ag-border);
-    border-radius: var(--ag-radius-lg);
-    background: linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--ag-panel) 96%, #fff 4%),
-      color-mix(in srgb, var(--ag-panel-2) 96%, var(--ag-bg) 4%)
-    );
-    padding: 14px;
-    box-shadow: 0 1px 0 color-mix(in srgb, #fff 16%, transparent);
-    color: var(--ag-text);
-  }
-
-  .ag-option-card label,
-  .ag-toggle-card label {
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-    cursor: pointer;
-    margin: 0;
-  }
-
-  .ag-option-card input[type="radio"],
-  .ag-toggle-card input[type="checkbox"] {
-    margin-top: 2px;
-    accent-color: var(--ag-primary);
-    flex-shrink: 0;
-  }
-
-  .ag-option-title,
-  .ag-color-title {
-    color: var(--ag-text);
-    font-size: 14px;
-    font-weight: 700;
-    margin: 0 0 4px;
-  }
-
-  .ag-option-copy,
-  .ag-color-copy,
-  .ag-toggle-copy {
-    color: var(--ag-text-muted);
-    font-size: 12px;
-    line-height: 1.5;
-    margin: 0;
-  }
-
-  .ag-color-card {
+  .ink-color-card {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 14px;
+    padding: 14px;
   }
 
-  .ag-color-card input[type="color"] {
+  .ink-color-card input[type="color"] {
     width: 54px;
     min-width: 54px;
     height: 36px;
     padding: 0;
-    border: 1px solid var(--ag-border);
+    border: 1px solid var(--ink-border);
     border-radius: 8px;
     background: transparent;
     cursor: pointer;
   }
 
-  .ag-actions {
+  .ink-actions {
     display: flex;
-    align-items: center;
-    gap: 10px;
     flex-wrap: wrap;
+    gap: 10px;
   }
 
-  .ag-btn,
-  .ag-btn:visited {
-    appearance: none;
-    border: 1px solid transparent;
-    border-radius: 12px;
-    min-height: 38px;
-    padding: 0 14px;
+  .ink-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    min-height: 38px;
+    padding: 0 14px;
+    border: 1px solid color-mix(in srgb, var(--ink-info) 22%, transparent);
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--ink-info) 10%, var(--ink-panel));
+    color: var(--ink-info);
+    cursor: pointer;
     font-size: 13px;
     font-weight: 700;
-    text-decoration: none;
     transition:
       transform 0.16s ease,
       background 0.16s ease,
-      border-color 0.16s ease,
-      opacity 0.16s ease,
-      box-shadow 0.16s ease;
-    white-space: nowrap;
-    cursor: pointer;
+      border-color 0.16s ease;
   }
 
-  .ag-btn:hover {
+  .ink-btn:hover {
     transform: translateY(-1px);
+    background: color-mix(in srgb, var(--ink-info) 16%, var(--ink-panel));
   }
 
-  .ag-btn-primary {
-    background: linear-gradient(180deg, color-mix(in srgb, var(--ag-primary) 88%, #fff 12%), var(--ag-primary-strong));
-    color: white;
-    box-shadow: 0 8px 18px color-mix(in srgb, var(--ag-primary) 26%, transparent);
+  .ink-link-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
 
-  .ag-btn-secondary {
-    background: color-mix(in srgb, var(--ag-info) 10%, var(--ag-panel));
-    border-color: color-mix(in srgb, var(--ag-info) 22%, transparent);
-    color: var(--ag-info);
+  .ink-link-icon {
+    width: 38px;
+    height: 38px;
+    background: color-mix(in srgb, var(--ink-info) 13%, var(--ink-panel));
   }
 
-  .ag-link-card {
-    border: 1px solid var(--ag-border);
-    border-radius: var(--ag-radius-lg);
-    background: linear-gradient(180deg, var(--ag-panel), var(--ag-panel-2));
-    box-shadow: var(--ag-shadow-sm);
-    padding: 16px;
+  .ink-link-copy {
+    min-width: 0;
   }
 
-  .ag-link-card a {
-    color: var(--ag-primary);
-    text-decoration: none;
+  .ink-link-card a {
+    display: inline-block;
+    color: var(--ink-primary);
     font-weight: 700;
+    text-decoration: none;
     word-break: break-word;
   }
 
-  .ag-link-card a:hover,
-  .ag-link-card a:focus-visible {
-    text-decoration: underline;
+  .ink-link-card a:hover,
+  .ink-link-card a:focus-visible {
     outline: none;
-  }
-
-  .ag-link-help {
-    margin-top: 8px;
-    color: var(--ag-text-muted);
-    font-size: 12px;
-    line-height: 1.6;
+    text-decoration: underline;
   }
 
   .floatingchat-container-wrap,
   .floatingchat-container-wrap-mobi {
-    left: unset !important;
     right: 16px !important;
-    bottom: 16px !important;
+    bottom: 14px !important;
+    left: unset !important;
   }
 
   .floating-chat-kofi-popup-iframe {
-    left: unset !important;
     right: 16px !important;
     bottom: 76px !important;
+    left: unset !important;
   }
 
   @media (max-width: 920px) {
-    .ag-grid-2,
-    .ag-metrics {
+    .ink-metrics,
+    .ink-grid-2 {
       grid-template-columns: 1fr;
     }
   }
 
   @media (max-width: 760px) {
-    .ag-hero {
+    .ink-hero {
       padding: 18px;
     }
 
-    .ag-hero h2 {
+    .ink-hero h2 {
       font-size: 22px;
     }
 
-    .ag-section-header {
+    .ink-section-header,
+    .ink-section-body,
+    .ink-hint-card,
+    .ink-link-card {
       padding: 16px;
     }
 
-    .ag-section-body {
-      padding: 16px;
+    .ink-link-card,
+    .ink-color-card {
+      align-items: flex-start;
     }
 
-    .ag-actions {
+    .ink-color-card {
+      flex-direction: column;
+    }
+
+    .ink-actions {
       display: grid;
       grid-template-columns: 1fr;
     }
 
-    .ag-btn,
-    .ag-btn:visited {
+    .ink-btn {
       width: 100%;
-    }
-
-    .ag-color-card {
-      flex-direction: column;
-      align-items: flex-start;
     }
   }
 </style>
 
-<div class="ag-settings-root">
+<div class="adguard-settings-container">
   <input type="hidden" name="plugin_id" value="adguard_home" />
 
-  <div class="ag-shell">
-    <section class="ag-hero">
-      <div class="ag-hero-top">
-        <div class="ag-hero-copy">
-          <div class="ag-eyebrow">AdGuard Home</div>
-          <h2>Connection, privacy, and display controls for your dashboard render.</h2>
-          <p>
-            Configure the AdGuard endpoint, tune what appears on the e-paper dashboard, and apply color presets that
-            work better on 6-color Waveshare displays without fighting InkyPi’s light and dark theme.
-          </p>
-        </div>
-      </div>
+  <div class="ink-shell">
+    <section class="ink-hero">
+      <div class="ink-eyebrow">🛡 AdGuard Home</div>
+      <h2>Show DNS filtering health, traffic, clients, and recent activity on your e-paper display.</h2>
+      <p>
+        Configure the AdGuard Home connection, control dashboard density, hide sensitive DNS information, and apply
+        colors that suit a six-color Waveshare display.
+      </p>
 
-      <div class="ag-metrics">
-        <div class="ag-metric">
-          <div class="ag-metric-label">Layout</div>
-          <div class="ag-metric-value" id="metric-layout">Full</div>
-          <div class="ag-metric-sub">Dashboard or compact view</div>
+      <div class="ink-metrics">
+        <div class="ink-metric">
+          <div class="ink-metric-label">Layout</div>
+          <div class="ink-metric-value" id="metric-layout">Full</div>
+          <div class="ink-metric-sub">Dashboard or compact render</div>
         </div>
-        <div class="ag-metric">
-          <div class="ag-metric-label">Privacy</div>
-          <div class="ag-metric-value" id="metric-privacy">Open</div>
-          <div class="ag-metric-sub">Mask clients and query names if needed</div>
+
+        <div class="ink-metric">
+          <div class="ink-metric-label">Privacy</div>
+          <div class="ink-metric-value" id="metric-privacy">Open</div>
+          <div class="ink-metric-sub">Client and query masking state</div>
         </div>
-        <div class="ag-metric">
-          <div class="ag-metric-label">Color profile</div>
-          <div class="ag-metric-value" id="metric-color">6-color</div>
-          <div class="ag-metric-sub">Accent mapping for Waveshare panels</div>
+
+        <div class="ink-metric">
+          <div class="ink-metric-label">Palette</div>
+          <div class="ink-metric-value" id="metric-color">6-color</div>
+          <div class="ink-metric-sub">Display accent color profile</div>
         </div>
       </div>
     </section>
 
-    <section class="ag-section">
-      <div class="ag-section-header">
-        <span class="ag-section-icon" aria-hidden="true">🔌</span>
-        <div class="ag-section-copy">
-          <div class="ag-section-title">Connection</div>
-          <div class="ag-section-subtitle">Point the plugin at your AdGuard Home instance.</div>
+    <section class="ink-hint-card">
+      <div class="ink-hint-heading">
+        <span class="ink-hint-icon" aria-hidden="true">ℹ️</span>
+        <h3 class="ink-hint-title">Connection guidance</h3>
+      </div>
+      <p class="ink-hint-copy">
+        Use the direct AdGuard Home URL, such as <code>http://192.168.1.2:3000</code>, or a reverse-proxy root URL. The
+        InkyPi host must be able to reach it over your local network.
+      </p>
+    </section>
+
+    <section class="ink-section">
+      <div class="ink-section-header">
+        <span class="ink-section-icon" aria-hidden="true">🔌</span>
+        <div class="ink-section-copy">
+          <h3 class="ink-section-title">AdGuard connection</h3>
+          <div class="ink-section-subtitle">Enter the endpoint and login InkyPi should use.</div>
         </div>
       </div>
-      <div class="ag-section-body">
-        <div class="ag-grid">
-          <div class="ag-field">
-            <label class="ag-label" for="host">AdGuard Home URL</label>
+
+      <div class="ink-section-body">
+        <div class="ink-grid">
+          <div class="ink-field">
+            <label for="host" class="ink-label">AdGuard Home URL</label>
             <input
-              type="text"
+              type="url"
               id="host"
               name="host"
-              class="ag-input"
+              class="ink-input"
               placeholder="http://192.168.1.2:3000"
               autocomplete="off"
             />
-            <p class="ag-note">Use the direct AdGuard Home URL or the reverse-proxy root.</p>
+            <p class="ink-note">Use the direct interface URL or the root address from your reverse proxy.</p>
           </div>
 
-          <div class="ag-grid ag-grid-2">
-            <div class="ag-field">
-              <label class="ag-label" for="username">Username</label>
+          <div class="ink-grid-2">
+            <div class="ink-field">
+              <label for="username" class="ink-label">Username</label>
               <input
                 type="text"
                 id="username"
                 name="username"
-                class="ag-input"
+                class="ink-input"
                 placeholder="admin"
                 autocomplete="off"
               />
             </div>
 
-            <div class="ag-field">
-              <label class="ag-label" for="password">Password</label>
-              <input type="password" id="password" name="password" class="ag-input" autocomplete="new-password" />
+            <div class="ink-field">
+              <label for="password" class="ink-label">Password</label>
+              <input type="password" id="password" name="password" class="ink-input" autocomplete="new-password" />
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="ag-section">
-      <div class="ag-section-header">
-        <span class="ag-section-icon" aria-hidden="true">🧭</span>
-        <div class="ag-section-copy">
-          <div class="ag-section-title">Layout and thresholds</div>
-          <div class="ag-section-subtitle">Control density and when visual warnings begin.</div>
+    <section class="ink-section">
+      <div class="ink-section-header">
+        <span class="ink-section-icon" aria-hidden="true">🧭</span>
+        <div class="ink-section-copy">
+          <h3 class="ink-section-title">Layout and thresholds</h3>
+          <div class="ink-section-subtitle">Choose the rendered density and blocked-query warning points.</div>
         </div>
       </div>
-      <div class="ag-section-body">
-        <div class="ag-grid">
-          <div class="ag-choice-grid">
-            <div class="ag-option-card">
+
+      <div class="ink-section-body">
+        <div class="ink-grid">
+          <div class="ink-choice-grid">
+            <div class="ink-option-card">
               <label>
                 <input type="radio" name="layout_mode" value="dashboard" />
                 <span>
-                  <div class="ag-option-title">Dashboard</div>
-                  <div class="ag-option-copy">Full layout with chart, clients, and recent queries.</div>
+                  <div class="ink-option-title">Dashboard</div>
+                  <p class="ink-option-copy">Full layout with chart, clients, service counters, and recent queries.</p>
                 </span>
               </label>
             </div>
 
-            <div class="ag-option-card">
+            <div class="ink-option-card">
               <label>
                 <input type="radio" name="layout_mode" value="compact" />
                 <span>
-                  <div class="ag-option-title">Compact</div>
-                  <div class="ag-option-copy">Tighter arrangement for smaller or portrait displays.</div>
+                  <div class="ink-option-title">Compact</div>
+                  <p class="ink-option-copy">A tighter layout for smaller panels and portrait displays.</p>
                 </span>
               </label>
             </div>
           </div>
 
-          <div class="ag-grid ag-grid-2">
-            <div class="ag-field">
-              <label class="ag-label" for="warning_threshold">Warning threshold (%)</label>
+          <div class="ink-grid-2">
+            <div class="ink-field">
+              <label for="warning_threshold" class="ink-label">Warning threshold (%)</label>
               <input
                 type="number"
                 id="warning_threshold"
                 name="warning_threshold"
+                class="ink-input"
                 min="1"
                 max="100"
                 step="1"
-                class="ag-input"
                 placeholder="10"
               />
+              <p class="ink-note">Use this color state when the blocked-query percentage reaches this value.</p>
             </div>
 
-            <div class="ag-field">
-              <label class="ag-label" for="alert_threshold">Alert threshold (%)</label>
+            <div class="ink-field">
+              <label for="alert_threshold" class="ink-label">Alert threshold (%)</label>
               <input
                 type="number"
                 id="alert_threshold"
                 name="alert_threshold"
+                class="ink-input"
                 min="1"
                 max="100"
                 step="1"
-                class="ag-input"
                 placeholder="25"
               />
+              <p class="ink-note">Use the alert color when the blocked-query percentage reaches this value.</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="ag-section">
-      <div class="ag-section-header">
-        <span class="ag-section-icon" aria-hidden="true">📊</span>
-        <div class="ag-section-copy">
-          <div class="ag-section-title">Display sections</div>
-          <div class="ag-section-subtitle">Choose what gets rendered on the dashboard image.</div>
+    <section class="ink-section">
+      <div class="ink-section-header">
+        <span class="ink-section-icon" aria-hidden="true">📊</span>
+        <div class="ink-section-copy">
+          <h3 class="ink-section-title">Display sections</h3>
+          <div class="ink-section-subtitle">Select the data blocks included in the dashboard image.</div>
         </div>
       </div>
-      <div class="ag-section-body">
-        <div class="ag-toggle-grid">
-          <div class="ag-toggle-card">
-            <label
-              ><input type="checkbox" name="show_status" value="true" />
-              <span class="ag-toggle-copy">Status badge</span></label
-            >
+
+      <div class="ink-section-body">
+        <div class="ink-toggle-grid">
+          <div class="ink-toggle-card">
+            <label>
+              <input type="checkbox" name="show_status" value="true" />
+              <span>
+                <div class="ink-option-title">Status badge</div>
+                <p class="ink-toggle-copy">Show whether AdGuard protection is enabled.</p>
+              </span>
+            </label>
           </div>
-          <div class="ag-toggle-card">
-            <label
-              ><input type="checkbox" name="show_totals" value="true" />
-              <span class="ag-toggle-copy">Totals row</span></label
-            >
+
+          <div class="ink-toggle-card">
+            <label>
+              <input type="checkbox" name="show_totals" value="true" />
+              <span>
+                <div class="ink-option-title">Totals row</div>
+                <p class="ink-toggle-copy">Show query totals and blocked-query summaries.</p>
+              </span>
+            </label>
           </div>
-          <div class="ag-toggle-card">
-            <label
-              ><input type="checkbox" name="show_services" value="true" />
-              <span class="ag-toggle-copy">Safeguard counters</span></label
-            >
+
+          <div class="ink-toggle-card">
+            <label>
+              <input type="checkbox" name="show_services" value="true" />
+              <span>
+                <div class="ink-option-title">Safeguard counters</div>
+                <p class="ink-toggle-copy">Show filtering and protection service counts.</p>
+              </span>
+            </label>
           </div>
-          <div class="ag-toggle-card">
-            <label
-              ><input type="checkbox" name="show_clients" value="true" />
-              <span class="ag-toggle-copy">Top clients</span></label
-            >
+
+          <div class="ink-toggle-card">
+            <label>
+              <input type="checkbox" name="show_clients" value="true" />
+              <span>
+                <div class="ink-option-title">Top clients</div>
+                <p class="ink-toggle-copy">Show the devices generating the most DNS requests.</p>
+              </span>
+            </label>
           </div>
-          <div class="ag-toggle-card">
-            <label
-              ><input type="checkbox" name="show_queries" value="true" />
-              <span class="ag-toggle-copy">Recent queries</span></label
-            >
+
+          <div class="ink-toggle-card">
+            <label>
+              <input type="checkbox" name="show_queries" value="true" />
+              <span>
+                <div class="ink-option-title">Recent queries</div>
+                <p class="ink-toggle-copy">Show a short list of recently requested domains.</p>
+              </span>
+            </label>
           </div>
-          <div class="ag-toggle-card">
-            <label
-              ><input type="checkbox" name="show_chart" value="true" />
-              <span class="ag-toggle-copy">24-hour traffic strip</span></label
-            >
+
+          <div class="ink-toggle-card">
+            <label>
+              <input type="checkbox" name="show_chart" value="true" />
+              <span>
+                <div class="ink-option-title">24-hour traffic strip</div>
+                <p class="ink-toggle-copy">Show the daily DNS activity trend on the dashboard.</p>
+              </span>
+            </label>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="ag-section">
-      <div class="ag-section-header">
-        <span class="ag-section-icon" aria-hidden="true">🕶️</span>
-        <div class="ag-section-copy">
-          <div class="ag-section-title">Privacy and palette</div>
-          <div class="ag-section-subtitle">Mask sensitive info and tune accent colors.</div>
+    <section class="ink-section">
+      <div class="ink-section-header">
+        <span class="ink-section-icon" aria-hidden="true">🕶️</span>
+        <div class="ink-section-copy">
+          <h3 class="ink-section-title">Privacy and color profile</h3>
+          <div class="ink-section-subtitle">Mask sensitive content and choose e-paper-friendly accents.</div>
         </div>
       </div>
-      <div class="ag-section-body">
-        <div class="ag-grid">
-          <div class="ag-toggle-grid">
-            <div class="ag-toggle-card">
-              <label
-                ><input type="checkbox" name="mask_client_names" value="true" />
-                <span class="ag-toggle-copy">Mask client names</span></label
-              >
+
+      <div class="ink-section-body">
+        <div class="ink-grid">
+          <div class="ink-toggle-grid">
+            <div class="ink-toggle-card">
+              <label>
+                <input type="checkbox" name="mask_client_names" value="true" />
+                <span>
+                  <div class="ink-option-title">Mask client names</div>
+                  <p class="ink-toggle-copy">Hide device names on shared or visible displays.</p>
+                </span>
+              </label>
             </div>
-            <div class="ag-toggle-card">
-              <label
-                ><input type="checkbox" name="mask_query_names" value="true" />
-                <span class="ag-toggle-copy">Mask query names</span></label
-              >
+
+            <div class="ink-toggle-card">
+              <label>
+                <input type="checkbox" name="mask_query_names" value="true" />
+                <span>
+                  <div class="ink-option-title">Mask query names</div>
+                  <p class="ink-toggle-copy">Hide requested domain names from the dashboard.</p>
+                </span>
+              </label>
             </div>
-            <div class="ag-toggle-card">
-              <label
-                ><input type="checkbox" name="prefer_6color_profile" value="true" />
-                <span class="ag-toggle-copy">Force 6-color accent profile</span></label
-              >
+
+            <div class="ink-toggle-card">
+              <label>
+                <input type="checkbox" name="prefer_6color_profile" value="true" />
+                <span>
+                  <div class="ink-option-title">Force 6-color profile</div>
+                  <p class="ink-toggle-copy">Use accent colors intended for Waveshare ACeP displays.</p>
+                </span>
+              </label>
             </div>
           </div>
 
-          <p class="ag-note">Use masking for shared dashboards or public-facing displays.</p>
+          <p class="ink-note">
+            Masking is useful when your dashboard is in a public room, workshop, office, or streamed camera view.
+          </p>
 
-          <div class="ag-color-grid">
-            <div class="ag-color-card">
+          <div class="ink-color-grid">
+            <div class="ink-color-card">
               <div>
-                <div class="ag-color-title">Panel ink</div>
-                <div class="ag-color-copy">Text and border color on the rendered card.</div>
+                <div class="ink-color-title">Panel ink</div>
+                <p class="ink-color-copy">Text and border color for the rendered dashboard card.</p>
               </div>
               <input type="color" id="accent_panel" name="accent_panel" value="#000000" />
             </div>
 
-            <div class="ag-color-card">
+            <div class="ink-color-card">
               <div>
-                <div class="ag-color-title">Info blue</div>
-                <div class="ag-color-copy">Traffic bars and calm highlight color.</div>
+                <div class="ink-color-title">Info blue</div>
+                <p class="ink-color-copy">Traffic bars and routine information highlights.</p>
               </div>
               <input type="color" id="accent_info" name="accent_info" value="#0000ff" />
             </div>
 
-            <div class="ag-color-card">
+            <div class="ink-color-card">
               <div>
-                <div class="ag-color-title">Alert red</div>
-                <div class="ag-color-copy">Blocked traffic and warning emphasis.</div>
+                <div class="ink-color-title">Alert red</div>
+                <p class="ink-color-copy">Blocked traffic and high-severity emphasis.</p>
               </div>
               <input type="color" id="accent_alert" name="accent_alert" value="#ff0000" />
             </div>
 
-            <div class="ag-color-card">
+            <div class="ink-color-card">
               <div>
-                <div class="ag-color-title">Warning yellow</div>
-                <div class="ag-color-copy">Threshold state and hot-bar highlight.</div>
+                <div class="ink-color-title">Warning yellow</div>
+                <p class="ink-color-copy">Threshold warning state and high-activity bar emphasis.</p>
               </div>
               <input type="color" id="accent_warn" name="accent_warn" value="#ffcc00" />
             </div>
 
-            <div class="ag-color-card">
+            <div class="ink-color-card">
               <div>
-                <div class="ag-color-title">Healthy green</div>
-                <div class="ag-color-copy">Enabled state and healthy protection color.</div>
+                <div class="ink-color-title">Healthy green</div>
+                <p class="ink-color-copy">Enabled protection and healthy service-state indicator.</p>
               </div>
               <input type="color" id="accent_ok" name="accent_ok" value="#008000" />
             </div>
           </div>
 
-          <div class="ag-actions">
-            <button type="button" class="ag-btn ag-btn-secondary" data-preset="waveshare">Waveshare ACeP</button>
-            <button type="button" class="ag-btn ag-btn-secondary" data-preset="high-contrast">High contrast</button>
-            <button type="button" class="ag-btn ag-btn-secondary" data-preset="soft-paper">Soft paper</button>
+          <div class="ink-actions">
+            <button type="button" class="ink-btn" data-preset="waveshare">Waveshare ACeP</button>
+            <button type="button" class="ink-btn" data-preset="high-contrast">High contrast</button>
+            <button type="button" class="ink-btn" data-preset="soft-paper">Soft paper</button>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="ag-link-card">
-      <a href="https://github.com/shadal18/inkypi-adguard-home" target="_blank" rel="noopener noreferrer">
-        github.com/shadal18/inkypi-adguard-home
-      </a>
-      <div class="ag-link-help">Setup help, updates, release notes, and source code.</div>
+    <section class="ink-link-card">
+      <span class="ink-link-icon" aria-hidden="true">⌘</span>
+      <div class="ink-link-copy">
+        <a href="https://github.com/shadal18/inkypi-adguard-home" target="_blank" rel="noopener noreferrer">
+          github.com/shadal18/inkypi-adguard-home
+        </a>
+        <div class="ink-link-help">Setup help, updates, release notes, and source code.</div>
+      </div>
     </section>
   </div>
 </div>
@@ -765,7 +842,7 @@
 <script src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"></script>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", function () {
     const defaults = {
       host: "",
       username: "",
@@ -815,32 +892,41 @@
 
     const settings =
       typeof loadPluginSettings !== "undefined" && loadPluginSettings && typeof pluginSettings !== "undefined"
-        ? { ...defaults, ...pluginSettings }
-        : { ...defaults }
+        ? Object.assign({}, defaults, pluginSettings)
+        : Object.assign({}, defaults)
 
-    const assignValue = (id, value) => {
-      const el = document.getElementById(id)
-      if (el) el.value = value
+    function assignValue(id, value) {
+      const element = document.getElementById(id)
+      if (element) element.value = value
     }
 
-    const setChecked = (name, value) => {
-      const field = document.querySelector(`input[name="${name}"]`)
+    function setChecked(name, value) {
+      const field = document.querySelector('input[name="' + name + '"]')
       if (field) field.checked = String(value).toLowerCase() === "true"
     }
 
-    const refreshMetrics = () => {
-      const mode = document.querySelector('input[name="layout_mode"]:checked')?.value || "dashboard"
-      const maskClients = document.querySelector('input[name="mask_client_names"]')?.checked
-      const maskQueries = document.querySelector('input[name="mask_query_names"]')?.checked
-      const use6 = document.querySelector('input[name="prefer_6color_profile"]')?.checked
+    function refreshMetrics() {
+      const mode = document.querySelector('input[name="layout_mode"]:checked')
+      const maskClients = document.querySelector('input[name="mask_client_names"]')
+      const maskQueries = document.querySelector('input[name="mask_query_names"]')
+      const useSixColor = document.querySelector('input[name="prefer_6color_profile"]')
 
       const layoutMetric = document.getElementById("metric-layout")
       const privacyMetric = document.getElementById("metric-privacy")
       const colorMetric = document.getElementById("metric-color")
 
-      if (layoutMetric) layoutMetric.textContent = mode === "compact" ? "Compact" : "Full"
-      if (privacyMetric) privacyMetric.textContent = maskClients || maskQueries ? "Masked" : "Open"
-      if (colorMetric) colorMetric.textContent = use6 ? "6-color" : "Custom"
+      if (layoutMetric) {
+        layoutMetric.textContent = mode && mode.value === "compact" ? "Compact" : "Full"
+      }
+
+      if (privacyMetric) {
+        privacyMetric.textContent =
+          (maskClients && maskClients.checked) || (maskQueries && maskQueries.checked) ? "Masked" : "Open"
+      }
+
+      if (colorMetric) {
+        colorMetric.textContent = useSixColor && useSixColor.checked ? "6-color" : "Custom"
+      }
     }
 
     assignValue("host", settings.host || defaults.host)
@@ -854,7 +940,7 @@
     assignValue("accent_warn", settings.accent_warn || defaults.accent_warn)
     assignValue("accent_ok", settings.accent_ok || defaults.accent_ok)
 
-    document.querySelectorAll('input[name="layout_mode"]').forEach((radio) => {
+    document.querySelectorAll('input[name="layout_mode"]').forEach(function (radio) {
       radio.checked = radio.value === (settings.layout_mode || defaults.layout_mode)
       radio.addEventListener("change", refreshMetrics)
     })
@@ -868,26 +954,33 @@
       "mask_client_names",
       "mask_query_names",
       "prefer_6color_profile",
-    ].forEach((key) => {
-      setChecked(key, settings[key] ?? defaults[key])
-      const field = document.querySelector(`input[name="${key}"]`)
+    ].forEach(function (key) {
+      setChecked(key, settings[key] != null ? settings[key] : defaults[key])
+
+      const field = document.querySelector('input[name="' + key + '"]')
       if (field) field.addEventListener("change", refreshMetrics)
     })
 
-    document.querySelectorAll("[data-preset]").forEach((button) => {
-      button.addEventListener("click", () => {
+    document.querySelectorAll("[data-preset]").forEach(function (button) {
+      button.addEventListener("click", function () {
         const preset = presetMap[button.dataset.preset]
         if (!preset) return
-        Object.entries(preset).forEach(([key, value]) => assignValue(key, value))
+
+        Object.keys(preset).forEach(function (key) {
+          assignValue(key, preset[key])
+        })
       })
     })
 
     refreshMetrics()
 
     if (typeof kofiWidgetOverlay !== "undefined") {
+      const messages = ["I ♥ Coffee", "Tip Jar", "Fuel the Pixels", "Buy Me a Coffee", "Keep InkyPi Brewing"]
+      const message = messages[Math.floor(Math.random() * messages.length)]
+
       kofiWidgetOverlay.draw("shadal", {
         type: "floating-chat",
-        "floating-chat.donateButton.text": "More coffee",
+        "floating-chat.donateButton.text": message,
         "floating-chat.donateButton.background-color": "#00b9fe",
         "floating-chat.donateButton.text-color": "#fff",
       })
